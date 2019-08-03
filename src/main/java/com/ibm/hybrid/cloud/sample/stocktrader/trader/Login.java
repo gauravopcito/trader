@@ -23,6 +23,9 @@ import java.io.Writer;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 //Servlet 3.1
 import javax.servlet.ServletException;
@@ -88,6 +91,36 @@ public class Login extends HttpServlet {
 			if (request.getUserPrincipal() != null) request.logout(); //in case there's a left over auth cookie but we ended up here
 
 			request.login(id, password);
+			
+			/* Users hash map */
+		        HashMap<String, String> hmap = new HashMap<String, String>();
+
+      			/*Adding elements to HashMap*/
+		        hmap.put("admin", "admin");
+                        hmap.put("stock", "trader");
+                        hmap.put("debug", "debug");
+                        hmap.put("read", "only");
+                        hmap.put("other", "other");
+			hmap.put("jalcorn@us.ibm.com", "test");
+
+			// Get the iterator over the HashMap 
+		        Iterator<Map.Entry<String, String> > iterator = hmap.entrySet().iterator(); 
+  
+		        // flag to store result 
+		        boolean isKeyPresent = false; 
+  	
+        		// Iterate over the HashMap 
+		        while (iterator.hasNext()) { 
+  
+	                	// Get the entry at this iteration 
+            			Map.Entry<String, String> entry = iterator.next(); 
+  
+		               // Check if this key is present in map  
+        	   	       if (id == entry.getKey()) { 
+  
+			                isKeyPresent = true; 
+            			     } 
+        		} 	
 
 			Cookie cookie = new Cookie("user", id); //clear text user id that can be used in Istio routing rules
 			response.addCookie(cookie);
@@ -100,7 +133,7 @@ public class Login extends HttpServlet {
 
 		String url = "error";
 		if (success) url = "summary";
-
+		logger.info("Before redirect to summary in login");
 		response.sendRedirect(url);
 	}
 

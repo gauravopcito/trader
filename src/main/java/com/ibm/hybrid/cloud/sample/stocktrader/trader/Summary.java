@@ -96,6 +96,7 @@ public class Summary extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("In summary doget request.");
 		boolean error = false;
 		String message = null;
 		String rows = null;
@@ -161,7 +162,7 @@ public class Summary extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String submit = request.getParameter("submit");
-
+		logger.info("In summary do post request.");
 		if (submit != null) {
 			if (submit.equals(LOGOUT)) {
 				request.logout();
